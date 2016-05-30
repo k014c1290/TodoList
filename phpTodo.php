@@ -5,12 +5,12 @@
 <body>
 <?php
 
-$link = mysql_connect('localhost', 'testuser', 'testuser');
+$link = mysql_connect('localhost', 'root', '');
 if (!$link) {
     die('接続失敗です。'.mysql_error());
 }
 
-$db_selected = mysql_select_db('ToDolist', $link);
+$db_selected = mysql_select_db('Todolist', $link);
 if (!$db_selected){
     die('データベース選択失敗です。'.mysql_error());
 }
