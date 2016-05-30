@@ -1,10 +1,18 @@
-<html>
+<!DOCTYPE html>
+<html lang="ja">
 <head>
+<meta charset="utf-8">
 <title>Todo list</title>
 </head>
 <body>
-<?php
+<h1>Todoアプリ</h1>
+<form class = "todoForm">
+  <input type="text" class="todoInput" >
+  <input type="submit" value="add">
+</form>
+<ul class="todoList"></ul>
 
+<?php
 $link = mysql_connect('localhost', 'root', '');
 if (!$link) {
     die('接続失敗です。'.mysql_error());
@@ -18,7 +26,7 @@ if (!$db_selected){
 mysql_set_charset('utf8');
 
 if(isset($_GET['add'])){
-  $sql = "INSERT INTO todo (name) VALUES (テキストフィールドのやつ)";
+  $sql = "INSERT INTO todo (name) VALUES (todoInput)";
   $result_flag = mysql_query($sql);
 }
 else if(isset($_GET['delete'])){
