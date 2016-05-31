@@ -5,57 +5,47 @@
 <title>Todo list</title>
 </head>
 <body>
-<h1>Todoアプリ</h1>
-<form class = "todoForm">
-  <input type="text" class="todoInput" >
-  <input type="submit" value="add">
+  <h1>Todolist</h1>
+  <form method="GET" >
+  <table border ="１"　width="500" cellspacing="0" cellpadding="5" id="table1">
+  <tr>
+    <td><input type = "text"name="name"size="30"maxlength="20"></td>
+    <td><input type="submit"value="add"></td>
+  </tr>
 </form>
-<ul class="todoList"></ul>
+
+  <table border ="2"  id="table2">
+  <hr><br>
+<?php
+  $db = new PDO('mysql:host=localhost;dbname=Todolist;charset=utf8', 'root', '');
+  $stt = $db ->prepare('SELECT * FROM todo');
+  $stt->execute();
+  while($row = $stt->fetch()){
+ ?>
+  <tr>
+    <td class="task">
+      <li name="name"
+      size="10" maxlength="20"/>
+      <?php print($row['name']) ?>
+    </td>
+    <td><input type="image" src="ico_ashcan1_9.gif" name="delete" alt="削除"></td>
+  </tr>
+
+<?php }?>
 
 <?php
-$link = mysql_connect('localhost', 'root', '');
-if (!$link) {
-    die('接続失敗です。'.mysql_error());
-}
-
-$db_selected = mysql_select_db('Todolist', $link);
-if (!$db_selected){
-    die('データベース選択失敗です。'.mysql_error());
-}
-
-mysql_set_charset('utf8');
 
 if(isset($_GET['add'])){
-  $sql = "INSERT INTO todo (name) VALUES (todoInput)";
-  $result_flag = mysql_query($sql);
+  $db = "INSERT INTO todo (name) VALUES (todoInput)";
+  $stt = $db ->prepare('SELECT * FROM todo');
+  $stt->execute();
 }
 else if(isset($_GET['delete'])){
   $sql = sprintf("DELETE FROM todo WHERE id = 消したい行列の番号"
          , quote_smart($id));
 
-$result_flag = mysql_query($sql);
-
-if (!$result_flag) {
-    die('DELETEクエリーが失敗しました。'.mysql_error());
-}
 }
 
-//select的な
-$result = mysql_query('SELECT id,name FROM todo');
-if (!$result) {
-    die('SELECTクエリーが失敗しました。'.mysql_error());
-}
-while ($row = mysql_fetch_assoc($result)) {
-    print('<p>');
-    print('id='.$row['id']);
-    print(',name='.$row['name']);
-    print('</p>');
-}
-
-$close_flag = mysql_close($link);
-if ($close_flag){
-    print('<p>切断に成功しました。</p>');
-}
 
 ?>
 </body>
